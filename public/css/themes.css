@@ -1,0 +1,117 @@
+/* ============ LinkPulse theme tokens ============
+   Three themes: light (iOS Light) · black (Contrast Black) · glass (Translucent)
+   Set via <html data-theme="...">
+*/
+
+:root, :root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f2f2f7;
+  --bg-image: none;
+  --surface: #ffffff;
+  --surface-2: #f7f7fa;
+  --surface-blur: none;
+  --text: #0b0b0d;
+  --text-2: #52514e;
+  --muted: #898781;
+  --border: rgba(11, 11, 13, 0.10);
+  --hairline: rgba(11, 11, 13, 0.07);
+  --accent: #007aff;
+  --accent-soft: rgba(0, 122, 255, 0.12);
+  --on-accent: #ffffff;
+  --danger: #d03b3b;
+  --danger-soft: rgba(208, 59, 59, 0.12);
+  --good: #0ca30c;
+  --good-text: #006300;
+  --warning: #c98500;
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+  --shadow-pop: 0 12px 40px rgba(0,0,0,0.18);
+  --grid-line: #e1e0d9;
+  --nav-bg: rgba(255, 255, 255, 0.82);
+  --nav-blur: saturate(180%) blur(20px);
+  --input-bg: rgba(118, 118, 128, 0.08);
+  --seg-bg: rgba(118, 118, 128, 0.12);
+  --seg-active: #ffffff;
+  /* dataviz categorical slots (validated light set) */
+  --s1: #2a78d6; --s2: #008300; --s3: #e87ba4; --s4: #eda100;
+  --s5: #1baf7a; --s6: #eb6834; --s7: #4a3aa7; --s8: #e34948;
+  --chart-fill: rgba(42, 120, 214, 0.10);
+}
+
+:root[data-theme="black"] {
+  color-scheme: dark;
+  --bg: #000000;
+  --bg-image: none;
+  --surface: #161618;
+  --surface-2: #232326;
+  --surface-blur: none;
+  --text: #ffffff;
+  --text-2: #c3c2b7;
+  --muted: #8e8d88;
+  --border: rgba(255, 255, 255, 0.12);
+  --hairline: rgba(255, 255, 255, 0.08);
+  --accent: #0a84ff;
+  --accent-soft: rgba(10, 132, 255, 0.18);
+  --on-accent: #ffffff;
+  --danger: #ff5f57;
+  --danger-soft: rgba(255, 95, 87, 0.16);
+  --good: #30d158;
+  --good-text: #30d158;
+  --warning: #ffd60a;
+  --shadow-card: 0 1px 0 rgba(255,255,255,0.03) inset, 0 8px 24px rgba(0,0,0,0.5);
+  --shadow-pop: 0 16px 48px rgba(0,0,0,0.7);
+  --grid-line: #2c2c2a;
+  --nav-bg: rgba(10, 10, 10, 0.85);
+  --nav-blur: saturate(180%) blur(20px);
+  --input-bg: rgba(118, 118, 128, 0.24);
+  --seg-bg: rgba(118, 118, 128, 0.22);
+  --seg-active: #48484d;
+  /* dataviz categorical slots (validated dark set) */
+  --s1: #3987e5; --s2: #008300; --s3: #d55181; --s4: #c98500;
+  --s5: #199e70; --s6: #d95926; --s7: #9085e9; --s8: #e66767;
+  --chart-fill: rgba(57, 135, 229, 0.14);
+}
+
+:root[data-theme="glass"] {
+  color-scheme: dark;
+  --bg: #101024;
+  --bg-image:
+    radial-gradient(1000px 700px at 85% -10%, rgba(94, 92, 230, 0.45), transparent 60%),
+    radial-gradient(900px 700px at -10% 20%, rgba(10, 132, 255, 0.38), transparent 55%),
+    radial-gradient(800px 800px at 50% 110%, rgba(191, 90, 242, 0.32), transparent 55%),
+    linear-gradient(180deg, #0e0e22 0%, #131234 100%);
+  --surface: rgba(255, 255, 255, 0.09);
+  --surface-2: rgba(255, 255, 255, 0.07);
+  --surface-blur: saturate(160%) blur(24px);
+  --text: #ffffff;
+  --text-2: #d3d3e2;
+  --muted: #9c9cb4;
+  --border: rgba(255, 255, 255, 0.16);
+  --hairline: rgba(255, 255, 255, 0.10);
+  --accent: #4da3ff;
+  --accent-soft: rgba(77, 163, 255, 0.22);
+  --on-accent: #ffffff;
+  --danger: #ff6961;
+  --danger-soft: rgba(255, 105, 97, 0.20);
+  --good: #32d74b;
+  --good-text: #32d74b;
+  --warning: #ffd60a;
+  --shadow-card: 0 1px 0 rgba(255,255,255,0.08) inset, 0 12px 32px rgba(0,0,10,0.35);
+  --shadow-pop: 0 20px 60px rgba(0,0,20,0.6);
+  --grid-line: rgba(255, 255, 255, 0.12);
+  --nav-bg: rgba(20, 20, 45, 0.55);
+  --nav-blur: saturate(160%) blur(28px);
+  --input-bg: rgba(255, 255, 255, 0.10);
+  --seg-bg: rgba(255, 255, 255, 0.10);
+  --seg-active: rgba(255, 255, 255, 0.22);
+  --s1: #3987e5; --s2: #008300; --s3: #d55181; --s4: #c98500;
+  --s5: #199e70; --s6: #d95926; --s7: #9085e9; --s8: #e66767;
+  --chart-fill: rgba(77, 163, 255, 0.16);
+}
+
+/* Glass theme: frosted cards */
+:root[data-theme="glass"] .card,
+:root[data-theme="glass"] .modal,
+:root[data-theme="glass"] .auth-card {
+  backdrop-filter: var(--surface-blur);
+  -webkit-backdrop-filter: var(--surface-blur);
+}
