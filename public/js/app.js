@@ -273,7 +273,9 @@ async function renderCampaignDetail(id) {
       <div class="page-sub">${esc(c.destination)}</div></div>
       <div class="head-actions">
         <a class="btn secondary" href="#/campaign-stats/${c.id}" onclick="event.preventDefault(); campaignStats(${c.id}, '${esc(c.name).replace(/'/g, "\\'")}')">📊 Analytics</a>
-        ${isAdmin ? `<button class="btn" onclick="addAgentsModal(${c.id})">＋ Add Agents</button>` : ''}
+        ${isAdmin ? `<button class="btn" onclick="addAgentsModal(${c.id})">＋ Add Agents</button>
+        <button class="btn ghost" onclick='editCampaignModal(${JSON.stringify({ id: c.id, name: c.name, destination: c.destination })})'>✎ Edit</button>
+        <button class="btn danger" onclick="delCampaign(${c.id})">🗑 Delete</button>` : ''}
       </div></div>
     <div class="card">
       <div class="card-title">Agent links</div>
@@ -290,7 +292,8 @@ async function renderCampaignDetail(id) {
               <button class="btn ghost sm icon-only" title="Copy link" onclick="copyText(shortUrl('${l.slug}'))">📋</button>
               <button class="btn ghost sm icon-only" title="QR code" onclick="qrModal(${l.id}, '${l.slug}')">▦</button>
               <button class="btn ghost sm icon-only" title="Link analytics" onclick="linkStats(${l.id}, '${esc(l.agent_name || l.slug).replace(/'/g, "\\'")}')">📈</button>
-              ${isAdmin ? `<button class="btn danger sm icon-only" title="Delete" onclick="delLink(${l.id}, ${c.id})">✕</button>` : ''}
+              ${isAdmin ? `<button class="btn ghost sm icon-only" title="Reset click data" onclick="resetClicks(${l.id}, '${esc(l.agent_name || l.slug).replace(/'/g, "\\'")}')">↺</button>
+              <button class="btn danger sm icon-only" title="Delete link" onclick="delLink(${l.id}, ${c.id})">✕</button>` : ''}
             </td>
           </tr>`).join('')}</tbody>
       </table></div>
@@ -303,6 +306,45 @@ function linkStats(id, name) { renderDashboard({ linkId: id, title: name, backHa
 
 function copyAllLinks(list) {
   copyText(list.map(l => `${l.a || l.s}: ${shortUrl(l.s)}`).join('\n'));
+}
+
+function editCampaignModal(c) {
+  const m = openModal(`
+    <h3>Edit Campaign</h3>
+    <form id="edit-camp">
+      <div class="field"><label>Campaign name</label><input class="input" name="name" required value="${esc(c.name)}"></div>
+      <div class="field"><label>Destination URL</label><input class="input" name="destination" required value="${esc(c.destination)}">
+        <div class="hint">Changing the destination updates every agent link in this campaign.</div></div>
+      <div class="modal-actions">
+        <button type="button" class="btn ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn">Save</button>
+      </div>
+    </form>`);
+  m.querySelector('#edit-camp').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    try {
+      await api.patch(`/api/campaigns/${c.id}`, Object.fromEntries(new FormData(e.target)));
+      closeModal(); toast('Campaign updated'); render();
+    } catch (err) { toast(err.message, true); }
+  });
+}
+
+async function delCampaign(id) {
+  if (!confirm('Delete this campaign? All its agent links and their click data will be permanently removed.')) return;
+  try {
+    await api.del(`/api/campaigns/${id}`);
+    toast('Campaign deleted');
+    location.hash = '#/campaigns';
+  } catch (e) { toast(e.message, true); }
+}
+
+async function resetClicks(id, name) {
+  if (!confirm(`Reset click data for "${name}"? The link keeps working — its stats start again from zero.`)) return;
+  try {
+    const r = await api.del(`/api/links/${id}/clicks`);
+    toast(`Cleared ${r.deleted} click${r.deleted === 1 ? '' : 's'}`);
+    render();
+  } catch (e) { toast(e.message, true); }
 }
 
 function addAgentsModal(campId) {

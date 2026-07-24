@@ -78,6 +78,14 @@ router.delete('/:id', requireAdmin, (req, res) => {
   res.json({ ok: true });
 });
 
+// Wipe click data for one link; the link itself keeps working
+router.delete('/:id/clicks', requireAdmin, (req, res) => {
+  const link = db.prepare('SELECT id FROM links WHERE id=?').get(req.params.id);
+  if (!link) return res.status(404).json({ error: 'Link not found' });
+  const r = db.prepare('DELETE FROM clicks WHERE link_id=?').run(link.id);
+  res.json({ ok: true, deleted: r.changes });
+});
+
 router.get('/:id/qr', requireAuth, async (req, res) => {
   const link = db.prepare('SELECT * FROM links WHERE id=?').get(req.params.id);
   if (!link) return res.status(404).json({ error: 'Link not found' });
