@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "https://linkpulse-z9xa.onrender.com/$1" }
+  ]
+}
